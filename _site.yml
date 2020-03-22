@@ -1,0 +1,9 @@
+name: "Computer-and-internet-penetration"
+output_dir: docs
+navbar: 
+  title: "Computer and internet among households"
+  left:
+    - text: "About the data"
+      href: index.html
+    - text: "Devices and internet among households"
+      href: computers-devices.html

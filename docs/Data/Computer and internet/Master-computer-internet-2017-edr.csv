@@ -1,0 +1,157 @@
+edr,planning.region,type,number,pct.hh
+EDR 1 - Northwest,Northwest,num.brod,23821,0.6823546261816098
+EDR 1 - Northwest,Northwest,num.cell,13532,0.3876253222572329
+EDR 1 - Northwest,Northwest,num.comp,28562,0.8181609853910055
+EDR 1 - Northwest,Northwest,num.desk,25649,0.73471784588943
+EDR 1 - Northwest,Northwest,num.dial,377,0.01079919793755371
+EDR 1 - Northwest,Northwest,num.intr,24198,0.6931538241191636
+EDR 1 - Northwest,Northwest,num.noin,10712,0.30684617588083646
+EDR 1 - Northwest,Northwest,num.none,6348,0.18183901460899457
+EDR 1 - Northwest,Northwest,num.satt,1824,0.052248639358350044
+EDR 1 - Northwest,Northwest,num.smrt,21277,0.609481523918648
+EDR 1 - Northwest,Northwest,num.tabl,15707,0.4499283872815812
+EDR 1 - Northwest,Northwest,total.hh,34910,1
+EDR 10 - Southeast,Southeast,num.brod,158407,0.8020891879712192
+EDR 10 - Southeast,Southeast,num.cell,97922,0.4958251684869843
+EDR 10 - Southeast,Southeast,num.comp,173367,0.8778387082073795
+EDR 10 - Southeast,Southeast,num.desk,158570,0.8029145336796747
+EDR 10 - Southeast,Southeast,num.dial,1827,0.009250960793547112
+EDR 10 - Southeast,Southeast,num.intr,160234,0.8113401487647663
+EDR 10 - Southeast,Southeast,num.noin,37259,0.18865985123523366
+EDR 10 - Southeast,Southeast,num.none,24126,0.1221612917926205
+EDR 10 - Southeast,Southeast,num.satt,13212,0.06689857362033085
+EDR 10 - Southeast,Southeast,num.smrt,134393,0.6804950048862491
+EDR 10 - Southeast,Southeast,num.tabl,105480,0.5340948793121781
+EDR 10 - Southeast,Southeast,total.hh,197493,1
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.brod,988854,0.8468622930490516
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.cell,669773,0.5735988311746147
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.comp,1071714,0.9178242445626668
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.desk,1002572,0.8586104954490489
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.dial,7696,0.006590914540777002
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.intr,996550,0.8534532075898286
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.noin,171118,0.14654679241017138
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.none,95954,0.08217575543733321
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.satt,54161,0.04638390364384397
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.smrt,893898,0.7655412326106393
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,num.tabl,693324,0.5937680916150824
+EDR 11 - 7 County Twin Cities,Seven County Mpls-St Paul,total.hh,1167668,1
+EDR 2 - Headwaters,Northwest,num.brod,23784,0.7264064504306396
+EDR 2 - Headwaters,Northwest,num.cell,12884,0.39350070246167
+EDR 2 - Headwaters,Northwest,num.comp,27574,0.842159916926272
+EDR 2 - Headwaters,Northwest,num.desk,24789,0.7571009712296134
+EDR 2 - Headwaters,Northwest,num.dial,352,0.010750717732575896
+EDR 2 - Headwaters,Northwest,num.intr,24136,0.7371571681632154
+EDR 2 - Headwaters,Northwest,num.noin,8606,0.2628428318367846
+EDR 2 - Headwaters,Northwest,num.none,5168,0.15784008307372793
+EDR 2 - Headwaters,Northwest,num.satt,1297,0.03961272982713335
+EDR 2 - Headwaters,Northwest,num.smrt,20373,0.6222283305845703
+EDR 2 - Headwaters,Northwest,num.tabl,15388,0.4699773990593122
+EDR 2 - Headwaters,Northwest,total.hh,32742,1
+EDR 3 - Arrowhead,Northeast,num.brod,101870,0.7299840201790027
+EDR 3 - Arrowhead,Northeast,num.cell,62403,0.4471698518821076
+EDR 3 - Arrowhead,Northeast,num.comp,117078,0.8389620998774642
+EDR 3 - Arrowhead,Northeast,num.desk,104164,0.7464224548731289
+EDR 3 - Arrowhead,Northeast,num.dial,1739,0.012461394042321446
+EDR 3 - Arrowhead,Northeast,num.intr,103609,0.7424454142213242
+EDR 3 - Arrowhead,Northeast,num.noin,35942,0.2575545857786759
+EDR 3 - Arrowhead,Northeast,num.none,22473,0.16103790012253585
+EDR 3 - Arrowhead,Northeast,num.satt,12610,0.09036122994460806
+EDR 3 - Arrowhead,Northeast,num.smrt,89591,0.6419946829474529
+EDR 3 - Arrowhead,Northeast,num.tabl,67885,0.48645298134732107
+EDR 3 - Arrowhead,Northeast,total.hh,139551,1
+EDR 4 - West Central,Northwest,num.brod,67895,0.7307688167992337
+EDR 4 - West Central,Northwest,num.cell,40483,0.43572743221862253
+EDR 4 - West Central,Northwest,num.comp,78503,0.8449450537622836
+EDR 4 - West Central,Northwest,num.desk,71296,0.7673745277637258
+EDR 4 - West Central,Northwest,num.dial,1391,0.014971638915497961
+EDR 4 - West Central,Northwest,num.intr,69286,0.7457404557147316
+EDR 4 - West Central,Northwest,num.noin,23623,0.25425954428526837
+EDR 4 - West Central,Northwest,num.none,14406,0.15505494623771648
+EDR 4 - West Central,Northwest,num.satt,5833,0.06278186182178261
+EDR 4 - West Central,Northwest,num.smrt,60486,0.6510241203758517
+EDR 4 - West Central,Northwest,num.tabl,46390,0.4993057723148457
+EDR 4 - West Central,Northwest,total.hh,92909,1
+EDR 5 - North Central,Northwest,num.brod,50304,0.7388194515840029
+EDR 5 - North Central,Northwest,num.cell,29879,0.4388356073846696
+EDR 5 - North Central,Northwest,num.comp,56694,0.8326699663665604
+EDR 5 - North Central,Northwest,num.desk,50306,0.7388488257670334
+EDR 5 - North Central,Northwest,num.dial,938,0.013776491841320663
+EDR 5 - North Central,Northwest,num.intr,51242,0.7525959434253234
+EDR 5 - North Central,Northwest,num.noin,16845,0.2474040565746765
+EDR 5 - North Central,Northwest,num.none,11393,0.16733003363343957
+EDR 5 - North Central,Northwest,num.satt,6156,0.09041373536798508
+EDR 5 - North Central,Northwest,num.smrt,42370,0.6222920675018726
+EDR 5 - North Central,Northwest,num.tabl,32390,0.47571489417950563
+EDR 5 - North Central,Northwest,total.hh,68087,1
+EDR 6E- Southwest Central,Central,num.brod,35075,0.7477402575253688
+EDR 6E- Southwest Central,Central,num.cell,19975,0.42583354651658567
+EDR 6E- Southwest Central,Central,num.comp,39984,0.8523919160910719
+EDR 6E- Southwest Central,Central,num.desk,36056,0.7686535345783235
+EDR 6E- Southwest Central,Central,num.dial,516,0.011000255819902788
+EDR 6E- Southwest Central,Central,num.intr,35591,0.7587405133452716
+EDR 6E- Southwest Central,Central,num.noin,11317,0.2412594866547284
+EDR 6E- Southwest Central,Central,num.none,6924,0.14760808390892813
+EDR 6E- Southwest Central,Central,num.satt,4074,0.08685085699667434
+EDR 6E- Southwest Central,Central,num.smrt,30651,0.653427986697365
+EDR 6E- Southwest Central,Central,num.tabl,23061,0.4916218981836787
+EDR 6E- Southwest Central,Central,total.hh,46908,1
+EDR 6W- Upper Minnesota Valley,Southwest,num.brod,13383,0.7108030592734226
+EDR 6W- Upper Minnesota Valley,Southwest,num.cell,7110,0.3776290630975143
+EDR 6W- Upper Minnesota Valley,Southwest,num.comp,15328,0.8141066496707032
+EDR 6W- Upper Minnesota Valley,Southwest,num.desk,13640,0.7244529424261738
+EDR 6W- Upper Minnesota Valley,Southwest,num.dial,356,0.018908009347779902
+EDR 6W- Upper Minnesota Valley,Southwest,num.intr,13739,0.7297110686212025
+EDR 6W- Upper Minnesota Valley,Southwest,num.noin,5089,0.27028893137879756
+EDR 6W- Upper Minnesota Valley,Southwest,num.none,3500,0.1858933503292968
+EDR 6W- Upper Minnesota Valley,Southwest,num.satt,1625,0.08630762693860208
+EDR 6W- Upper Minnesota Valley,Southwest,num.smrt,11155,0.592468663692373
+EDR 6W- Upper Minnesota Valley,Southwest,num.tabl,8372,0.44465689398767794
+EDR 6W- Upper Minnesota Valley,Southwest,total.hh,18828,1
+EDR 7E- East Central,Central,num.brod,46053,0.7468498126915655
+EDR 7E- East Central,Central,num.cell,27820,0.45116196098146377
+EDR 7E- East Central,Central,num.comp,52668,0.8541264615733909
+EDR 7E- East Central,Central,num.desk,47889,0.7766245560546843
+EDR 7E- East Central,Central,num.dial,856,0.013881906491737346
+EDR 7E- East Central,Central,num.intr,46909,0.7607317191833028
+EDR 7E- East Central,Central,num.noin,14754,0.2392682808166972
+EDR 7E- East Central,Central,num.none,8995,0.14587353842660916
+EDR 7E- East Central,Central,num.satt,6230,0.1010330343966398
+EDR 7E- East Central,Central,num.smrt,41228,0.6686019168707329
+EDR 7E- East Central,Central,num.tabl,32032,0.5194687251674424
+EDR 7E- East Central,Central,total.hh,61663,1
+EDR 7W- Central,Central,num.brod,123996,0.8135633254817566
+EDR 7W- Central,Central,num.cell,78031,0.5119774819402799
+EDR 7W- Central,Central,num.comp,138192,0.9067062088694385
+EDR 7W- Central,Central,num.desk,126620,0.8307799305824383
+EDR 7W- Central,Central,num.dial,1385,0.009087270603827807
+EDR 7W- Central,Central,num.intr,125381,0.8226505960855843
+EDR 7W- Central,Central,num.noin,27030,0.17734940391441562
+EDR 7W- Central,Central,num.none,14219,0.09329379113056144
+EDR 7W- Central,Central,num.satt,10893,0.0714712192689504
+EDR 7W- Central,Central,num.smrt,112639,0.7390477065303686
+EDR 7W- Central,Central,num.tabl,87113,0.5715663567590266
+EDR 7W- Central,Central,total.hh,152411,1
+EDR 8 - Southwest,Southwest,num.brod,35010,0.7343471421080231
+EDR 8 - Southwest,Southwest,num.cell,21072,0.4419926586261143
+EDR 8 - Southwest,Southwest,num.comp,39928,0.8375039328788674
+EDR 8 - Southwest,Southwest,num.desk,35647,0.7477084425799685
+EDR 8 - Southwest,Southwest,num.dial,578,0.012123754588358678
+EDR 8 - Southwest,Southwest,num.intr,35588,0.7464708966963818
+EDR 8 - Southwest,Southwest,num.noin,12087,0.2535291033036183
+EDR 8 - Southwest,Southwest,num.none,7747,0.16249606712113268
+EDR 8 - Southwest,Southwest,num.satt,5786,0.12136339800734137
+EDR 8 - Southwest,Southwest,num.smrt,29776,0.6245621394861038
+EDR 8 - Southwest,Southwest,num.tabl,22455,0.47100157315154695
+EDR 8 - Southwest,Southwest,total.hh,47675,1
+EDR 9 - South Central,Southwest,num.brod,71477,0.773920763991901
+EDR 9 - South Central,Southwest,num.cell,39636,0.42916075662916725
+EDR 9 - South Central,Southwest,num.comp,79697,0.8629232218456641
+EDR 9 - South Central,Southwest,num.desk,72503,0.7850298298991956
+EDR 9 - South Central,Southwest,num.dial,933,0.010102103792890631
+EDR 9 - South Central,Southwest,num.intr,72410,0.7840228677847916
+EDR 9 - South Central,Southwest,num.noin,19947,0.21597713221520837
+EDR 9 - South Central,Southwest,num.none,12660,0.1370767781543359
+EDR 9 - South Central,Southwest,num.satt,6299,0.06820273503903332
+EDR 9 - South Central,Southwest,num.smrt,61322,0.6639669976287667
+EDR 9 - South Central,Southwest,num.tabl,45530,0.4929783340732159
+EDR 9 - South Central,Southwest,total.hh,92357,1

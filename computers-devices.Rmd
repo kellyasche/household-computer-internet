@@ -1,0 +1,351 @@
+---
+title: "Computer-type devices and internet subscription in the household"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+runtime: shiny
+resource_files:
+- Data/Shapefiles/County shapefiles/MNCounties_MNDOT.cpg
+- Data/Shapefiles/County shapefiles/MNCounties_MNDOT.dbf
+- Data/Shapefiles/County shapefiles/MNCounties_MNDOT.prj
+- Data/Shapefiles/County shapefiles/MNCounties_MNDOT.sbn
+- Data/Shapefiles/County shapefiles/MNCounties_MNDOT.sbx
+- Data/Shapefiles/County shapefiles/MNCounties_MNDOT.shp.xml
+- Data/Shapefiles/County shapefiles/MNCounties_MNDOT.shx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(sf)
+library(ggrepel)
+library(scales)
+library(shiny)
+library(shinycssloaders)
+library(ggiraph)
+library(kableExtra)
+library(rmapshaper)
+library(cowplot)
+library(DT)
+```
+
+```{r loading jon docs and shapefiles, cache=TRUE, include=FALSE}
+theme_bar <- theme_bw() +
+  theme(panel.grid.major = element_line(color = "grey70", size = 0.1),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.title = element_blank(),
+        text = element_text(size = 15),
+        plot.caption = element_text(hjust = 0.5, face = "italic"),
+        legend.text = element_text(margin = margin(l = 2, r = 5)))
+
+theme_line <- theme_bw() +
+  theme(legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "grey70", size = 0.1),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        text = element_text(size = 15),
+        plot.caption = element_text(hjust = 0.5, face = "italic"),
+        legend.text = element_text(margin = margin(l = 2, r = 5)))
+
+theme_sf <- theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        panel.background = element_blank(),
+        panel.grid.major = element_line(color = "white"),
+        panel.border = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.title = element_blank(),
+        text = element_text(size = 15),
+        plot.caption = element_text(hjust = 0.5, face = "italic"),
+        legend.text = element_text(margin = margin(l = 2, r = 5)))
+
+counties.regions <- read_csv("Data/Join docs/county_regions.csv") %>%
+  mutate(countyfp = formatC(countyfp, width = 3, flag = "0"),
+         Name = str_to_title(Name),
+         Name = str_replace(Name, "Q", "q"),
+         Name = str_replace(Name, "Of The", "of the"),
+         Dem_Desc = ifelse(Name == "Minnesota", "Minnesota", Dem_Desc),
+         Name = str_replace(Name, "Mcleod", "McLeod"),
+         planning.region = str_replace(planning.region, " Minnesota", ""),
+         edr = str_replace(edr, "  ", " "))
+
+edr.pr <- counties.regions %>%
+  distinct(edr, .keep_all = TRUE) %>%
+  select(5,6) %>%
+  mutate(edr = str_replace(edr, "  ", " "),
+         planning.region = str_replace(planning.region, " Minnesota", ""))
+
+color.ruca <- c("Entirely rural" = "#5CA81F", "Town/rural mix" = "#C7EF99", "Urban/town/rural mix" = "#d8b365", "Entirely urban" = "#a6611a", "Minnesota" = "black")
+
+color.pr <- c("Northwest" = "#810f7c","Northeast" = "#fe9929", "Central" = "#076324", "Seven County Mpls-St Paul" = "#d8b365", "Southwest" = "#1f78b4", "Southeast" = "#d7301f", "Minnesota" = "black")
+
+color.edr <- c("EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365", "Minnesota" = "black")
+
+color.green.five <- c("#edf8fb", "#b2e2e2", "#66c2a4", "#2ca25f", "#006d2c")
+
+color.counties <- scale_color_brewer(palette = "Dark2",
+                       guide = guide_legend(ncol = 3))
+
+mn_counties <- st_read("Data/Shapefiles/county shapefiles/MNCounties_MNDOT.shp", quiet = TRUE) %>%
+  ms_simplify(keep = .01, keep_shapes = TRUE)
+```
+
+```{r master objects, include = FALSE, cache=TRUE}
+master.county <- read_csv("Data/Computer and internet/Master-computer-internet-2017-county.csv") %>%
+  mutate(pct.comp = pct.comp/100,
+         pct.desk = pct.desk/100,
+         pct.smrt = pct.smrt/100,
+         pct.tabl = pct.tabl/100,
+         pct.none = pct.none/100,
+         pct.intr = pct.intr/100)
+
+master.map <- master.county %>%
+  left_join(mn_counties[,c(4,7)], by = c("countyfp" = "FIPS_CODE")) %>%
+  st_as_sf()
+
+master.ruca <- read_csv("Data/Computer and internet/Master-computer-internet-2017-ruca.csv") %>%
+  mutate(data_id = as.character(seq(n())),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
+
+master.pr <- read_csv("Data/Computer and internet/Master-computer-internet-2017-pr.csv") %>%
+  mutate(data_id = as.character(seq(n())),
+         planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"))
+
+master.edr <- read_csv("Data/Computer and internet/Master-computer-internet-2017-edr.csv") %>%
+  mutate(data_id = as.character(seq(n())),
+         planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+         edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"))
+
+```
+
+# Any device in household {.tabset}
+
+The map and charts below provide the percentage of households with access to any sort of computer-type device. This includes a desktop, laptop, smart phone, or a tablet.
+
+Between 90% and 95% of households in the seven-county metro had one of these devices. The percentage decreased as you go away from this region. Many of the counties across rural Minnesota had between 80% and 85% of their households with one of these devices. 
+
+<br>
+
+```{r prep any device in household, include=FALSE, cache=TRUE}
+device.map <- master.map %>%
+  mutate(pct.comp.bins = cut(pct.comp,
+                             breaks = c(0, .75, .80, .85, .90, 1),
+                             labels = c("Less than 75%", "75% - 80%", "80% - 85%", "85%-90%", "More than 90%")))
+```
+
+## County map
+
+The percentage of households that have a computer, tablet, or cell phone device decreases as you get away from the seven county metro. Many of these counties have less than 85% of their households who have a computer-type device in their home, compared to metro counties where more than 90% of the households had a device.
+
+The counties with the lowest percentages were located in Northern Minnesota. Mahnomen and Norman counties had the lowest percentage with 73% and 75%, respectively. 
+
+<br>
+
+```{r map any device in household}
+device.map.plot <- ggplot(device.map) +
+  geom_sf_interactive(aes(fill = pct.comp.bins, tooltip = paste(county, "\nTotal households: ", comma(total.hh), "\nHouseholds with any computer-type device: ", comma(num.comp), "\nPercentage of households with any computer-type device: ", percent(pct.comp), sep = ""), data_id = county)) +
+  scale_fill_manual(values = color.green.five)+
+  theme_sf+
+  labs(title= "Percentage of households with any computer-type device") +
+  theme(text = element_text(size = 12))
+
+girafe(ggobj = device.map.plot, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+
+
+```
+
+## RUCA
+
+Our most rural counties in the state had an average of 80% of their households with any sort of computer-type device. The averages gradually increase as counties become more densely populated or are more connect to urban areas. 
+
+<br>
+
+```{r chart any device in household ruca}
+device.ruca <- ggplot(filter(master.ruca, type == "num.comp"), aes(Dem_Desc, pct.hh, fill = Dem_Desc)) +
+  geom_col_interactive(aes(tooltip = paste(Dem_Desc, "\nHouseholds with any computer-type device: ", comma(number), "\nPercentage of households with any computer-type device: ", percent(pct.hh), sep = ""), data_id = data_id)) +
+  geom_label(aes(x=Dem_Desc, y = pct.hh, label = percent(pct.hh)), show.legend = FALSE) +
+  scale_fill_manual(values = color.ruca)+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  labs(title= "Percentage of households with any computer-type device", y = "Percent of households", x = "Rural-urban Community Area") +
+  theme(text = element_text(size = 12),
+        legend.position = "none")
+
+girafe(ggobj = device.ruca, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+```
+
+
+## Planning Region
+
+Our northern regions of the state have the lowest percentage of their households with any computer-type device. 
+
+<br>
+
+```{r chart any device in household pr}
+device.pr <- ggplot(filter(master.pr, type == "num.comp"), aes(planning.region, pct.hh, fill = planning.region)) +
+  geom_col_interactive(aes(tooltip = paste(planning.region, "\nHouseholds with any computer-type device: ", comma(number), "\nPercentage of households with any computer-type device: ", percent(pct.hh), sep = ""), data_id = data_id)) +
+  geom_label(aes(x=planning.region, y = pct.hh, label = percent(pct.hh)), show.legend = FALSE) +
+  scale_fill_manual(values = color.pr)+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  labs(title= "Percentage of households with any computer-type device", y = "Percent of households", x = "Planning Region") +
+  theme(text = element_text(size = 12),
+        legend.position = "none")
+
+girafe(ggobj = device.pr, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+```
+
+## EDR
+
+Not much difference here from the planning regions or the RUCA chart. IF an EDR had more rural counties within it, it likely had a lower percentage of households with a computer-type device.
+
+<br>
+
+```{r chart any device in household edr, fig.height=12}
+device.edr <- ggplot(filter(master.edr, type == "num.comp"), aes(edr, pct.hh, fill = edr)) +
+  facet_wrap(~planning.region, ncol = 2, scales = "free_x") +
+  geom_col_interactive(aes(tooltip = paste(edr, "\nHouseholds with any computer-type device: ", comma(number), "\nPercentage of households with any computer-type device: ", percent(pct.hh), sep = ""), data_id = data_id)) +
+  geom_label(aes(x=edr, y = pct.hh, label = percent(pct.hh)), show.legend = FALSE) +
+  scale_fill_manual(values = color.edr)+
+  scale_y_continuous(labels=scales::percent) +
+  theme_bar+
+  labs(title= "Percentage of households with any computer-type device", y = "Percent of households", x = "EDR") +
+  theme(text = element_text(size = 12),
+        legend.position = "none",
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+girafe(ggobj = device.edr, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+
+```
+
+# Internet subscription{.tabset}
+
+The map and charts below provide the percentage of households in each county and region that have some sort of internet subscription. This includes broadband, dial-up and cell phone data plan.
+
+Not surprisingly, the counties with the highest percentage of any internet subscription is located in the seven-county metro, where between 85% and 90% of households are subscribed. The percentages decrease significantly as you travel out from there. Some of our lowest percentages are located in Northwest Minnesota. 
+
+On average, most of the counties located outside of the seven-county metro have 70% to 80% of their households subscribed to internet. Our most rural counties have, on average, 67% of their households with an internet subscription. 
+
+<br>
+
+```{r prep internet subscription, include=FALSE, cache=TRUE}
+internet.map <- master.map %>%
+  mutate(pct.intr.bins = cut(pct.intr,
+                             breaks = c(0, .65, .70, .75, .80, 1),
+                             labels = c("Less than 65%", "65%-70%", "70%-75%", "75%-80%", "More than 80%")),
+         data_id = as.character(seq(n()))) 
+```
+
+## County map
+
+The highest percentages of households with any type of internet subscription is found in the seven-county metro where many counties have between 85% and 90% subscription rate. The percentages drop significantly the further away you get from the core metro. Most of the counties outside of the metro have between 70% and 80% subscription rates, with some of the lowest percentages found in Northern Minnesota.
+
+<br>
+
+```{r map internet subscription in household}
+internet.map.plot <- ggplot(internet.map) +
+  geom_sf_interactive(aes(fill = pct.intr.bins, tooltip = paste(county, "\nTotal households: ", comma(total.hh), "\nHouseholds with any type of internet subscription: ", comma(num.intr), "\nPercentage of households with any type of internet subscription: ", percent(pct.intr), sep = ""), data_id = county)) +
+  scale_fill_manual(values = color.green.five)+
+  theme_sf+
+  labs(title= "Percentage of households with any type of internet subscription") +
+  theme(text = element_text(size = 12))
+
+girafe(ggobj = internet.map.plot, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+```
+
+
+## RUCA
+
+The rural-ness of a county makes a considerable different in the internet subscription rate of a county's households. Our most rural counties have an average internet subscription rate of 68%. The percentages increase, on average, as a county either has or is connected to more urban parts of the state. 
+
+<br>
+
+```{r chart any type of internet subscription ruca}
+internet.ruca <- ggplot(filter(master.ruca, type == "num.intr"), aes(Dem_Desc, pct.hh, fill = Dem_Desc)) +
+  geom_col_interactive(aes(tooltip = paste(Dem_Desc, "\nHouseholds with any type of internet subscription: ", comma(number), "\nPercentage of households with any type of internet subscription: ", percent(pct.hh), sep = ""), data_id = data_id)) +
+  geom_label(aes(x=Dem_Desc, y = pct.hh, label = percent(pct.hh)), show.legend = FALSE) +
+  scale_fill_manual(values = color.ruca)+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  labs(title= "Percentage of households with any type of internet subscription", y = "Percent of households", x = "Rural-urban Community Area") +
+  theme(text = element_text(size = 12),
+        legend.position = "none")
+
+girafe(ggobj = internet.ruca, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+```
+
+## Planning Region
+
+The seven-county metro has the highest percentage of households with internet subscription by a significant margin compared to the other regions. Northwest Minnesota has the lowest percentage of households with 74%.
+
+<br>
+
+```{r chart any type of internet subscription pr}
+internet.pr <- ggplot(filter(master.pr, type == "num.intr"), aes(planning.region, pct.hh, fill = planning.region)) +
+  geom_col_interactive(aes(tooltip = paste(planning.region, "\nHouseholds with any type of internet subscription: ", comma(number), "\nPercentage of households with any type of internet subscription: ", percent(pct.hh), sep = ""), data_id = data_id)) +
+  geom_label(aes(x=planning.region, y = pct.hh, label = percent(pct.hh)), show.legend = FALSE) +
+  scale_fill_manual(values = color.pr)+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  labs(title= "Percentage of households with any type of internet subscription", y = "Percent of households", x = "Planning Region") +
+  theme(text = element_text(size = 12),
+        legend.position = "none")
+
+girafe(ggobj = internet.pr, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+```
+
+## EDR
+
+The differences among EDRs is definitely based on how many "very rural" counties are within the region. For example, EDR 6W has 73% of their households with internet subscription, which also has some of our most rural counties within the region. On the other hand, EDR 9, which is also in Southwest Minnesota, has 78% subscription rate, largely due to have a few larger cities located within it.
+
+<br>
+
+```{r chart any type of internet subscription edr, fig.height=12}
+internet.edr <- ggplot(filter(master.edr, type == "num.intr"), aes(edr, pct.hh, fill = edr)) +
+  facet_wrap(~planning.region, ncol = 2, scales = "free_x") +
+  geom_col_interactive(aes(tooltip = paste(edr, "\nHouseholds with any type of internet subscription: ", comma(number), "\nPercentage of households with any type of internet subscription: ", percent(pct.hh), sep = ""), data_id = data_id)) +
+  geom_label(aes(x=edr, y = pct.hh, label = percent(pct.hh)), show.legend = FALSE) +
+  scale_fill_manual(values = color.edr)+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  labs(title= "Percentage of households with any type of internet subscription", y = "Percent of households", x = "EDR") +
+  theme(text = element_text(size = 12),
+        legend.position = "none")
+
+girafe(ggobj = internet.edr, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+```
