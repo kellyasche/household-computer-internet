@@ -1,9 +1,10 @@
 planning.region,type,number,pct.hh
 Central,num.brod,205124,0.7859699136338905
 Central,num.cell,125826,0.48212520403706005
+Central,num.cell.only,23893,0.0915503751216559
 Central,num.comp,230844,0.884520771547463
 Central,num.desk,210565,0.8068180947345027
-Central,num.dial,2757,0.010563946938869348
+Central,num.dial.only,2757,0.010563946938869348
 Central,num.intr,207881,0.7965338605727598
 Central,num.noin,53101,0.2034661394272402
 Central,num.none,30138,0.11547922845253696
@@ -13,9 +14,10 @@ Central,num.tabl,142206,0.5448881532059682
 Central,total.hh,260982,1
 Northeast,num.brod,101870,0.7299840201790027
 Northeast,num.cell,62403,0.4471698518821076
+Northeast,num.cell.only,13789,0.09880975414006349
 Northeast,num.comp,117078,0.8389620998774642
 Northeast,num.desk,104164,0.7464224548731289
-Northeast,num.dial,1739,0.012461394042321446
+Northeast,num.dial.only,1739,0.012461394042321446
 Northeast,num.intr,103609,0.7424454142213242
 Northeast,num.noin,35942,0.2575545857786759
 Northeast,num.none,22473,0.16103790012253585
@@ -25,9 +27,10 @@ Northeast,num.tabl,67885,0.48645298134732107
 Northeast,total.hh,139551,1
 Northwest,num.brod,165804,0.725149574892411
 Northwest,num.cell,96778,0.42326195724432314
+Northwest,num.cell.only,20343,0.08897081977537524
 Northwest,num.comp,191333,0.8368015464819285
 Northwest,num.desk,172040,0.7524229383156642
-Northwest,num.dial,3058,0.013374269619677408
+Northwest,num.dial.only,3058,0.013374269619677408
 Northwest,num.intr,168862,0.7385238445120884
 Northwest,num.noin,59786,0.26147615548791153
 Northwest,num.none,37315,0.16319845351807144
@@ -37,9 +40,10 @@ Northwest,num.tabl,109875,0.48054214338196705
 Northwest,total.hh,228648,1
 Seven County Mpls-St Paul,num.brod,988854,0.8468622930490516
 Seven County Mpls-St Paul,num.cell,669773,0.5735988311746147
+Seven County Mpls-St Paul,num.cell.only,74891,0.06413723763946601
 Seven County Mpls-St Paul,num.comp,1071714,0.9178242445626668
 Seven County Mpls-St Paul,num.desk,1002572,0.8586104954490489
-Seven County Mpls-St Paul,num.dial,7696,0.006590914540777002
+Seven County Mpls-St Paul,num.dial.only,7696,0.006590914540777002
 Seven County Mpls-St Paul,num.intr,996550,0.8534532075898286
 Seven County Mpls-St Paul,num.noin,171118,0.14654679241017138
 Seven County Mpls-St Paul,num.none,95954,0.08217575543733321
@@ -49,9 +53,10 @@ Seven County Mpls-St Paul,num.tabl,693324,0.5937680916150824
 Seven County Mpls-St Paul,total.hh,1167668,1
 Southeast,num.brod,158407,0.8020891879712192
 Southeast,num.cell,97922,0.4958251684869843
+Southeast,num.cell.only,16624,0.0841751353212519
 Southeast,num.comp,173367,0.8778387082073795
 Southeast,num.desk,158570,0.8029145336796747
-Southeast,num.dial,1827,0.009250960793547112
+Southeast,num.dial.only,1827,0.009250960793547112
 Southeast,num.intr,160234,0.8113401487647663
 Southeast,num.noin,37259,0.18865985123523366
 Southeast,num.none,24126,0.1221612917926205
@@ -61,9 +66,10 @@ Southeast,num.tabl,105480,0.5340948793121781
 Southeast,total.hh,197493,1
 Southwest,num.brod,119870,0.754563766838726
 Southwest,num.cell,67818,0.4269041923706408
+Southwest,num.cell.only,12999,0.08182676570565278
 Southwest,num.comp,134953,0.8495090016366612
 Southwest,num.desk,121790,0.7666498803978345
-Southwest,num.dial,1867,0.011752486466070754
+Southwest,num.dial.only,1867,0.011752486466070754
 Southwest,num.intr,121737,0.7663162533047967
 Southwest,num.noin,37123,0.23368374669520334
 Southwest,num.none,23907,0.1504909983633388

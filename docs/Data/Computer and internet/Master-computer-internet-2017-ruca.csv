@@ -1,9 +1,10 @@
 Dem_Desc,type,number,pct.hh
 Entirely rural,num.brod,27830,0.6595724510593923
 Entirely rural,num.cell,15097,0.35779968715931176
+Entirely rural,num.cell.only,3528,0.08361378395032469
 Entirely rural,num.comp,33901,0.8034554676020287
 Entirely rural,num.desk,30327,0.7187514812532587
-Entirely rural,num.dial,638,0.015120633265393185
+Entirely rural,num.dial.only,638,0.015120633265393185
 Entirely rural,num.intr,28468,0.6746930843247855
 Entirely rural,num.noin,13726,0.32530691567521447
 Entirely rural,num.none,8293,0.1965445323979713
@@ -13,9 +14,10 @@ Entirely rural,num.tabl,18297,0.4336398540076788
 Entirely rural,total.hh,42194,1
 Entirely urban,num.brod,1128213,0.8449609616356794
 Entirely urban,num.cell,756537,0.5665988878278941
+Entirely urban,num.cell.only,87641,0.0656376266172368
 Entirely urban,num.comp,1223770,0.9165271770675354
 Entirely urban,num.desk,1144827,0.8574038083469078
-Entirely urban,num.dial,8945,0.006699245445524162
+Entirely urban,num.dial.only,8945,0.006699245445524162
 Entirely urban,num.intr,1137158,0.8516602070812035
 Entirely urban,num.noin,198067,0.14833979291879645
 Entirely urban,num.none,111455,0.08347282293246457
@@ -25,9 +27,10 @@ Entirely urban,num.tabl,789394,0.5912067254582561
 Entirely urban,total.hh,1335225,1
 Town/rural mix,num.brod,238952,0.7342767150649151
 Town/rural mix,num.cell,137905,0.42376891756933244
+Town/rural mix,num.cell.only,29142,0.08955058769301683
 Town/rural mix,num.comp,272797,0.8382791733886457
 Town/rural mix,num.desk,243608,0.7485841591764616
-Town/rural mix,num.dial,4242,0.01303526158100945
+Town/rural mix,num.dial.only,4242,0.01303526158100945
 Town/rural mix,num.intr,243194,0.7473119766459245
 Town/rural mix,num.noin,82231,0.2526880233540754
 Town/rural mix,num.none,52628,0.1617208266113544
@@ -37,9 +40,10 @@ Town/rural mix,num.tabl,155082,0.47655220096796497
 Town/rural mix,total.hh,325425,1
 Urban/town/rural mix,num.brod,344934,0.7659106755070411
 Urban/town/rural mix,num.cell,210981,0.4684739695975202
+Urban/town/rural mix,num.cell.only,42228,0.09376540441160144
 Urban/town/rural mix,num.comp,388821,0.8633598159686294
 Urban/town/rural mix,num.desk,350939,0.7792445121436724
-Urban/town/rural mix,num.dial,5119,0.011366512863100022
+Urban/town/rural mix,num.dial.only,5119,0.011366512863100022
 Urban/town/rural mix,num.intr,350053,0.777277188370141
 Urban/town/rural mix,num.noin,100305,0.2227228116298589
 Urban/town/rural mix,num.none,61537,0.1366401840313706

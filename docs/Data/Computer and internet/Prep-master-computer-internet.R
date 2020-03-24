@@ -14,9 +14,8 @@ counties.regions <- read_csv("Data/Join docs/county_regions.csv") %>%
 
 
 # Organize object ---------------------------------------------------------
-
 data <- read_csv("Data/Computer and internet/acs-computer-internet-2017-county.csv") %>%
-  select(2,3,4,8,10,12,14,20,22,28,30,44,46,48,50,52,54,56,58,60,62,72,74,76,78) %>%
+  select(2,3,4,8,10,12,14,20,22,28,30,44,46,48,50,52,54,56,58,60,62,64,66,72,74,76,78) %>%
   rename(countyfp = 1,
          county = 2,
          total.hh = 3,
@@ -32,23 +31,25 @@ data <- read_csv("Data/Computer and internet/acs-computer-internet-2017-county.c
          pct.none = 13,
          num.intr = 14,
          pct.intr = 15,
-         num.dial = 16,
-         pct.dial = 17,
+         num.dial.only = 16,
+         pct.dial.only = 17,
          num.brod = 18,
          pct.brod = 19,
          num.cell = 20,
          pct.cell = 21,
-         num.satt = 22,
-         pct.satt = 23,
-         num.noin = 24,
-         pct.noin = 25) %>%
+         num.cell.only = 22,
+         pct.cell.only = 23,
+         num.satt = 24,
+         pct.satt = 25,
+         num.noin = 26,
+         pct.noin = 27) %>%
   mutate(countyfp = str_sub(countyfp, 3,5),
          county = str_replace(county, " County, Minnesota", "")) %>%
   left_join(counties.regions[,c(1,3:6)], by = "countyfp")
 
 data.ruca <- data %>%
-  select(1:4,6,8,10,12,14,16,18,20,22,24,27) %>%
-  gather(key = "type", value = "number", 3:14) %>%
+  select(1:4,6,8,10,12,14,16,18,20,22,24,26,29) %>%
+  gather(key = "type", value = "number", 3:15) %>%
   group_by(Dem_Desc, type) %>%
   summarise(number = sum(number)) %>%
   ungroup() %>%
@@ -58,8 +59,8 @@ data.ruca <- data %>%
   mutate(Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
 data.pr <- data %>%
-  select(1:4,6,8,10,12,14,16,18,20,22,24,29) %>%
-  gather(key = "type", value = "number", 3:14) %>%
+  select(1:4,6,8,10,12,14,16,18,20,22,24,26,31) %>%
+  gather(key = "type", value = "number", 3:15) %>%
   group_by(planning.region, type) %>%
   summarise(number = sum(number)) %>%
   ungroup() %>%
@@ -70,8 +71,8 @@ data.pr <- data %>%
          planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"))
 
 data.edr <- data %>%
-  select(1:4,6,8,10,12,14,16,18,20,22,24,28,29) %>%
-  gather(key = "type", value = "number", 3:14) %>%
+  select(1:4,6,8,10,12,14,16,18,20,22,24,26,30,31) %>%
+  gather(key = "type", value = "number", 3:15) %>%
   group_by(edr,planning.region, type) %>%
   summarise(number = sum(number)) %>%
   ungroup() %>%

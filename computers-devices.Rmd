@@ -86,9 +86,9 @@ edr.pr <- counties.regions %>%
   mutate(edr = str_replace(edr, "  ", " "),
          planning.region = str_replace(planning.region, " Minnesota", ""))
 
-color.ruca <- c("Entirely rural" = "#5CA81F", "Town/rural mix" = "#C7EF99", "Urban/town/rural mix" = "#d8b365", "Entirely urban" = "#a6611a", "Minnesota" = "black")
+color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
-color.pr <- c("Northwest" = "#810f7c","Northeast" = "#fe9929", "Central" = "#076324", "Seven County Mpls-St Paul" = "#d8b365", "Southwest" = "#1f78b4", "Southeast" = "#d7301f", "Minnesota" = "black")
+color.pr <- c("Northwest" = "#00CC33","Northeast" = "#FFFF00", "Central" = "#FF9900", "Seven County Mpls-St Paul" = "#996600", "Southwest" = "#3366CC", "Southeast" = "#FF0000", "Minnesota" = "black")
 
 color.edr <- c("EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365", "Minnesota" = "black")
 
@@ -108,7 +108,12 @@ master.county <- read_csv("Data/Computer and internet/Master-computer-internet-2
          pct.smrt = pct.smrt/100,
          pct.tabl = pct.tabl/100,
          pct.none = pct.none/100,
-         pct.intr = pct.intr/100)
+         pct.intr = pct.intr/100,
+         pct.dial.only = pct.dial.only/100,
+         pct.brod = pct.brod/100,
+         pct.cell = pct.cell/100,
+         pct.cell.only = pct.cell.only/100,
+         pct.satt = pct.satt/100)
 
 master.map <- master.county %>%
   left_join(mn_counties[,c(4,7)], by = c("countyfp" = "FIPS_CODE")) %>%
@@ -345,6 +350,153 @@ internet.edr <- ggplot(filter(master.edr, type == "num.intr"), aes(edr, pct.hh, 
         legend.position = "none")
 
 girafe(ggobj = internet.edr, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+```
+
+<br>
+
+# Types of internet subscription {.tabset}
+
+The ACS asked about 4 types of internet subscription - whether a household had a subscription to broadband, dial-up, cell-phone data plan, or satellite.
+
+<br>
+
+
+```{r prep broadband in hh, include=FALSE, cache=TRUE}
+
+intr.type.map <- master.map %>%
+  mutate(pct.brod.bins = cut(pct.brod,
+                             breaks = c(0, .65, .7, .75, .8, 1),
+                             labels = c("Less than 65%", "65%-70%", "70%-75%", "75%-80%", "More than 80%")),
+         pct.dial.only.bins = cut(pct.dial.only,
+                             breaks = c(0, .005, .01, .015, .02, 1),
+                             labels = c("Less than 0.5%", "0.5%-1.0%", "1.0%-1.5%", "1.5%-2.0%", "More than 2.0%")),
+         pct.cell.only.bins = cut(pct.cell.only,
+                             breaks = c(0, .05, .075, .10, .125, 1),
+                             labels = c("Less than 5.0%", "5.0%-7.5%", "7.5%-10.0%", "10.0%-12.5%", "More than 12%")))
+```
+
+
+## County maps{.tabset}
+
+The maps below provide the percentage of households that have a subscription to broadband, only a dial-up connect, or only a cellphone data plan.
+
+Not surprisingly, the highest percentages of households with a broadband connection are located in the seven-county metro. These counties typically have 85% or more of their households subscribed to broadband. Rural counties typically have 75% or less of their households on broadband.
+
+The counties with the highest percentages of households with a dial-up connection only are located in Northern Minnesota. In particular, Northwest MN and and the northern parts of West Central Minnesota have 2% to 4% of their households on dial-up. 
+
+The same is true for counties with higher percentages of households with only a cellphone data plan. Counties in Northern Minnesota have 10% to 20% of their households with only a cell phone data plan.
+ 
+<br>
+
+### Broadband
+
+```{r map types of internet in hh}
+
+broad.map.plot <- ggplot(intr.type.map) +
+  geom_sf_interactive(aes(fill = pct.brod.bins, tooltip = paste(county, "\nTotal households: ", comma(total.hh), "\nHouseholds with a broadband subscription: ", comma(num.brod), "\nPercentage of households with a broadband subscription: ", percent(pct.brod), sep = ""), data_id = county)) +
+  scale_fill_manual(values = color.green.five)+
+  theme_sf+
+  labs(title= "Percentage of households with a subscription to broadband internet") +
+  theme(text = element_text(size = 12))
+
+dial.map.plot <- ggplot(intr.type.map) +
+  geom_sf_interactive(aes(fill = pct.dial.only.bins, tooltip = paste(county, "\nTotal households: ", comma(total.hh), "\nHouseholds with a dial-up subscription only: ", comma(num.dial.only), "\nPercentage of households with a dial-up subscription only: ", percent(pct.dial.only), sep = ""), data_id = county)) +
+  scale_fill_manual(values = color.green.five)+
+  theme_sf+
+  labs(title= "Percentage of households with a subscription to dial-up only") +
+  theme(text = element_text(size = 12))
+
+cell.map.plot <- ggplot(intr.type.map) +
+  geom_sf_interactive(aes(fill = pct.cell.only.bins, tooltip = paste(county, "\nTotal households: ", comma(total.hh), "\nHouseholds with a broadband subscription: ", comma(num.cell.only), "\nPercentage of households with a broadband subscription: ", percent(pct.cell.only), sep = ""), data_id = county)) +
+  scale_fill_manual(values = color.green.five)+
+  theme_sf+
+  labs(title= "Percentage of households with a subscription to a cell phone data plan only") +
+  theme(text = element_text(size = 12))
+
+cell.only.bottom.plot <- plot_grid(NULL, cell.map.plot, NULL, ncol = 3, rel_widths = c(0,1,0))
+
+girafe(ggobj =  broad.map.plot, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+
+```
+
+### Dial-up only
+
+```{r map dial up}
+
+girafe(ggobj =  dial.map.plot, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+
+```
+
+### Cell phone data plan only
+
+```{r map cell phone}
+
+girafe(ggobj =  cell.map.plot, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+
+
+```
+
+## RUCA
+
+The percentage of households with a subscription to broadband internet begins at 66% (on average) in our entirely rural counties and increases to 85% in our entirely urban counties. 
+
+The percentage of households with only a cell-phone data plan hovers around 8.5% for most county groups except for entirely urban where it drops to 6.5%.
+
+The highest percentage of households with a dial-up only exists in our entirely rural counties where they average 1.5% compared to 0.6% for our entirely urban areas.
+
+<br>
+
+```{r chart types of internet in hh ruca}
+intr.type.ruca <- ggplot(filter(master.ruca, type %in% c("num.brod", "num.cell.only", "num.dial.only")), aes(Dem_Desc, pct.hh, fill = type, group_by(type))) +
+  geom_col_interactive(aes(tooltip = paste(Dem_Desc, "\nHouseholds with any type of internet subscription: ", comma(number), "\nPercentage of households with any type of internet subscription: ", percent(pct.hh), sep = ""), data_id = data_id), position = "dodge") +
+  geom_label(aes(x=Dem_Desc, y = pct.hh, label = percent(pct.hh)), show.legend = FALSE) +
+  scale_fill_manual(values = c("#7fc97f", "#ffff99", "#386cb0"),
+                    breaks = c("num.brod", "num.cell.only", "num.dial.only"),
+                      labels = c("Percentage w/ broadband", "Percentage w/ cell data plan only", "Percentage w/ dial-up only"))+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  labs(title= "Percentage of households with any type of internet subscription", y = "Percent of households", x = "Rural-urban Community Area") +
+  theme(text = element_text(size = 12),
+        legend.position = "bottom")
+
+girafe(ggobj = intr.type.ruca, width_svg = 8) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_toolbar(saveaspng = FALSE) ,
+                 opts_sizing(rescale = FALSE))
+```
+
+## Planning Region
+
+Similarly to the county map, this chart confirms that the lowest percentages of broadband subscription among households exists in our counties in northern Minnesota. 
+
+<br>
+
+```{r chart types of internet in hh pr}
+intr.type.pr <- ggplot(filter(master.pr, type %in% c("num.brod", "num.cell.only", "num.dial.only")), aes(planning.region, pct.hh, fill = type, group_by(type))) +
+  geom_col_interactive(aes(tooltip = paste(planning.region, "\nHouseholds with any type of internet subscription: ", comma(number), "\nPercentage of households with any type of internet subscription: ", percent(pct.hh), sep = ""), data_id = data_id), position = "dodge") +
+  geom_label(aes(x=planning.region, y = pct.hh, label = percent(pct.hh)), show.legend = FALSE) +
+  scale_fill_manual(values = c("#7fc97f", "#ffff99", "#386cb0"),
+                    breaks = c("num.brod", "num.cell.only", "num.dial.only"),
+                      labels = c("Percentage w/ broadband", "Percentage w/ cell data plan only", "Percentage w/ dial-up only"))+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  labs(title= "Percentage of households with any type of internet subscription", y = "Percent of households", x = "Planning Region") +
+  theme(text = element_text(size = 12),
+        legend.position = "bottom")
+
+girafe(ggobj = intr.type.pr, width_svg = 8) %>%
   girafe_options(opts_selection(type = "none"),
                  opts_toolbar(saveaspng = FALSE) ,
                  opts_sizing(rescale = FALSE))
