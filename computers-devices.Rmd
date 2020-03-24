@@ -359,7 +359,7 @@ girafe(ggobj = internet.edr, width_svg = 8) %>%
 
 # Types of internet subscription {.tabset}
 
-The ACS asked about 4 types of internet subscription - whether a household had a subscription to broadband, dial-up, cell-phone data plan, or satellite.
+The ACS asked about 4 types of internet subscription - whether a household had a subscription to broadband, dial-up, cell-phone data plan, or satellite. Unfortunately, Satellite was lumped together with broadband and we are not able to see the percentage of households that only have a subscription to a satellite service.
 
 <br>
 
